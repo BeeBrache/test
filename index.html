@@ -1,1 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Egg Lunch Club</title>
+  <style>
+        body {
+            font-family: Fresca, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2; /* Light gray background */
+            color: #4f6067; /* Text color */
+        }
+        .site-header {
+            background-color: #faf2bb; /* Light yellow background */
+            color: #333; /* Dark text color */
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .logo {
+            flex: 1;
+        }
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
+        .navbar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            text-align: center;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            height: 50px; /* Adjust height as needed */
+            align-items: center; /* Vertically center */
+        }
+        .navbar li {
+            margin: 0 10px;
+        }
+        .navbar a {
+            color: black;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.5); /* Less transparent */
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .navbar a:hover {
+            background-color: #555; /* Dark gray background on hover */
+            color: white;
+        }
+        .navbar img {
+            height: 24px; /* Same height as text */
+        }
+        #about {
+            background-color: #fff;
+            padding: 0 20px; /* Remove top and bottom padding, keep left and right padding */
+            margin: 0 auto; /* Remove top and bottom margin */
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 80px); /* Adjust height to fill the page */
+            display: flex;
+            flex-direction: column;
+        }
+        #main-content {
+            flex-grow: 1; /* Make the main content take up all available space */
+            padding: 20px 0; /* Optional: add padding to the main content */
+        }
+        #get-in-touch {
+            margin: 0; /* Remove any margin from the Get in touch section */
+            padding: 20px 0; /* Add padding if needed for spacing */
+            background-color: #fff; /* Optional: add background color to differentiate the section */
+        }
+        .order-form {
+            max-width: 800px; /* Match the width of #about */
+            margin: 50px auto; /* Center the form horizontally */
+            padding: 20px;
+            background-color: white;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .order-form label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .order-form input,
+        .order-form select,
+        .order-form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .order-form textarea {
+            height: 100px;
+        }
+        .contact {
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            /* Remove background color */
+            background: none;
+        }
+        .contact a {
+            text-decoration: none;
+            color: #4f6067;
+        }
+        .contact a img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        form input[type="text"], form input[type="email"], form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .day-options {
+            margin-top: 20px;
+        }
+        .day-options h3 {
+            margin-top: 0;
+        }
+        .day-options p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .add-to-cart-btn, .checkout-btn {
+            background-color: #faf2bb;
+            border: none;
+            color: #4f6067;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px 0;
+            cursor: pointer;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+            transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+        .cart-icon-container {
+            position: relative;
+        }
+        .cart-popup {
+            display: none;
+            position: fixed;
+            right: 20px;
+            top: 100px;
+            background: #fff;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            z-index: 1000;
+        }
+        .cart-popup h2 {
+            margin-top: 0;
+        }
+        .cart-content {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .cart-content div {
+            padding: 10px 0;
+        }
+        .separator {
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        .navbar a:active {
+            background-color: #444; /* Darker gray background on click */
+            color: white;
+        }
+        .add-to-cart-btn:active,
+        .checkout-btn:active {
+            background-color: #d1c191; /* Darker yellow background on click */
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            transform: scale(0.98); /* Slightly reduce size on click */
+        }
+  </style>
+  <script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo"><img src="https://happyegg.s3.af-south-1.amazonaws.com/Untitled+design+(3).png" alt="Happy Egg Lunch Club"></div>
+    <nav class="navbar">
+      <ul>
+        <li>
+          <a href="#about">About the Foodie</a>
+        </li>
+        <li>
+          <a href="#order%20your%20lunch">Order your Lunch</a>
+        </li>
+        <li>
+          <a href="#contact">Get in touch</a>
+        </li>
+        <li class="cart-icon-container">
+          <a href="#" onclick="toggleCartPopup()"><img src="https://happyegg.s3.af-south-1.amazonaws.com/icons8-paper-bag-80.png" alt="Cart"><span class="cart-count" id="cartCount">0</span></a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <div class="content" id="about">
+    <h1>Welcome to Happy Egg Lunch Club!</h1>
+    <p>Started by a food-loving mom on a mission to bring smiles to school kids, we specialize in wholesome, homemade-style lunches. We believe in putting Nutrition First, crafting balanced meals that kids love. Our secret? Fresh, top-notch ingredients and a dash of mom's care in every bite. We're all about safety, community love (local suppliers rock!), and making sure every dietary need is met. Plus, we're eco-warriors—doing our bit for the planet while constantly making our lunches even better. Thanks for being a part of our journey to make lunchtime awesome!</p>
+    <div class="container" id="order your lunch">
+      <h1>Order your lunch</h1>
+      <form>
+        <label for="name">Full Name:</label> <input type="text" id="name" name="name" required=""><br>
+        <label for="Child's name">Child's name:</label> <input type="text" id="name" name="name" required=""><br>
+        <label for="email">Email:</label> <input type="email" id="email" name="email" required=""><br>
+        <label for="mobile">Mobile:</label> <input type="text" id="mobile" name="mobile" required=""><br>
+        <label for="days">Day:</label> <select id="days" name="days" onchange="showDayOptions(this.value)" required="">
+          <option value="">
+            Select a day
+          </option>
+          <option value="Monday">
+            Monday
+          </option>
+          <option value="Tuesday">
+            Tuesday
+          </option>
+          <option value="Wednesday">
+            Wednesday
+          </option>
+          <option value="Thursday">
+            Thursday
+          </option>
+          <option value="Friday">
+            Friday
+          </option>
+        </select><br>
+        <div id="monday-options" class="day-options" style="display:none;">
+          <h3>Monday's Menu</h3>
+          <p>Spaghetti Bolognese <button type="button" class="add-to-cart-btn" onclick="addToCart('Spaghetti Bolognese', 25)">Add to cart R25</button></p>
+          <p>Meaty Vegetable Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Meaty Vegetable Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Butternut Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Butternut Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Chinese Chicken and Corn Soup <button type="button" class="add-to-cart-btn" onclick="addToCart('Chinese Chicken and Corn Soup', 20)">Add to cart R20</button></p>
+          <p>Chicken Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Chicken Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Tuna Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Tuna Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Cheese & Spiced Beef Sandwich <button type="button" class="add-to-cart-btn" onclick="addToCart('Cheese &amp; Spiced Beef Sandwich', 15)">Add to cart R15</button></p>
+          <p>Fries <button type="button" class="add-to-cart-btn" onclick="addToCart('Fries', 15)">Add to cart R15</button></p>
+          <p class="separator"></p>
+        </div>
+        <div id="tuesday-options" class="day-options" style="display:none;">
+          <h3>Tuesday's Menu</h3>
+          <p>Coconut Chicken Curry with Rice or Roti (specify if you want rice or roti in the notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Coconut Chicken Curry with Rice or Roti', 30)">Add to cart R30</button></p>
+          <p>Meaty Vegetable Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Meaty Vegetable Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Butternut Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Butternut Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Chinese Chicken and Corn Soup <button type="button" class="add-to-cart-btn" onclick="addToCart('Chinese Chicken and Corn Soup', 20)">Add to cart R20)</button></p>
+          <p>Chicken Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Chicken Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Tuna Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Tuna Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Cheese & Spiced Beef Sandwich <button type="button" class="add-to-cart-btn" onclick="addToCart('Cheese &amp; Spiced Beef Sandwich', 15)">Add to cart R15</button></p>
+          <p>Fries <button type="button" class="add-to-cart-btn" onclick="addToCart('Fries', 15)">Add to cart R15</button></p>
+          <p class="separator"></p>
+        </div>
+        <div id="wednesday-options" class="day-options" style="display:none;">
+          <h3>Wednesday's Menu</h3>
+          <p>Chicken strips and Fries <button type="button" class="add-to-cart-btn" onclick="addToCart('Chicken strips and Fries', 25)">Add to cart R25</button></p>
+          <p>Meaty Vegetable Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Meaty Vegetable Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Butternut Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Butternut Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Chinese Chicken and Corn Soup <button type="button" class="add-to-cart-btn" onclick="addToCart('Chinese Chicken and Corn Soup', 20)">Add to cart R20</button></p>
+          <p>Chicken Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Chicken Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Tuna Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Tuna Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Cheese & Spiced Beef Sandwich <button type="button" class="add-to-cart-btn" onclick="addToCart('Cheese &amp; Spiced Beef Sandwich', 15)">Add to cart R15</button></p>
+          <p>Fries <button type="button" class="add-to-cart-btn" onclick="addToCart('Fries', 15)">Add to cart R15</button></p>
+          <p class="separator"></p>
+        </div>
+        <div id="thursday-options" class="day-options" style="display:none;">
+          <h3>Thursday's Menu</h3>
+          <p>Mac and Cheese <button type="button" class="add-to-cart-btn" onclick="addToCart('Mac and Cheese', 25)">Add to cart R25</button></p>
+          <p>Meaty Vegetable Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Meaty Vegetable Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Butternut Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Butternut Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Chinese Chicken and Corn Soup <button type="button" class="add-to-cart-btn" onclick="addToCart('Chinese Chicken and Corn Soup', 20)">Add to cart R20</button></p>
+          <p>Chicken Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Chicken Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Tuna Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Tuna Mayo Wrap or Sandwich', 20)">Add to cart R20)</button></p>
+          <p>Cheese & Spiced Beef Sandwich <button type="button" class="add-to-cart-btn" onclick="addToCart('Cheese &amp; Spiced Beef Sandwich', 15)">Add to cart R15</button></p>
+          <p>Fries <button type="button" class="add-to-cart-btn" onclick="addToCart('Fries', 15)">Add to cart R15</button></p>
+          <p class="separator"></p>
+        </div>
+        <div id="friday-options" class="day-options" style="display:none;">
+          <h3>Friday's Menu</h3>
+          <p>Burger and Fries (Choice of beef or crispy chicken - specify in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Burger and Fries', 30)">Add to cart R30</button></p>
+          <p>Meaty Vegetable Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Meaty Vegetable Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Butternut Soup + Home Baked Bread <button type="button" class="add-to-cart-btn" onclick="addToCart('Butternut Soup + Home Baked Bread', 20)">Add to cart R20</button></p>
+          <p>Chinese Chicken and Corn Soup <button type="button" class="add-to-cart-btn" onclick="addToCart('Chinese Chicken and Corn Soup', 20)">Add to cart R20</button></p>
+          <p>Chicken Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Chicken Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Tuna Mayo Wrap or Sandwich (Specify Wrap or Sandwich in notes) <button type="button" class="add-to-cart-btn" onclick="addToCart('Tuna Mayo Wrap or Sandwich', 20)">Add to cart R20</button></p>
+          <p>Cheese & Spiced Beef Sandwich <button type="button" class="add-to-cart-btn" onclick="addToCart('Cheese &amp; Spiced Beef Sandwich', 15)">Add to cart R15</button></p>
+          <p>Fries <button type="button" class="add-to-cart-btn" onclick="addToCart('Fries', 15)">Add to cart R15</button></p>
+          <p class="separator"></p>
+        </div><label for="special-instructions">Special Instructions:</label> 
+        <textarea id="special-instructions" name="special-instructions"></textarea><br>
+        <button type="button" class="checkout-btn" id="checkoutButton" onclick="checkout()">Checkout</button>
+      </form>
+    </div>
+    <div class="contact" id="contact">
+      <p>Get in touch:</p>
+      <p><a href="mailto:happylunchclub@outlook.com"><img src="https://happyegg.s3.af-south-1.amazonaws.com/icons8-paper-plane.gif" alt="Email Icon"> Email Me</a></p>
+      <p><a href="https://wa.me/0814580528" target="_blank"><img src="https://happyegg.s3.af-south-1.amazonaws.com/icons8-whatsapp.gif" alt="WhatsApp Icon"> WhatsApp Me</a></p>
+    </div>
+  </div>
+  <div class="cart-popup" id="cartPopup">
+    <h2>Cart</h2>
+    <div class="cart-content" id="cartContent"></div>
+    <div class="separator"></div><button type="button" class="checkout-btn" onclick="checkout()" id="checkoutButton">Checkout</button>
+    <p>Total: <span id="totalAmount">R0.00</span></p>
+  </div>
+  <script>
+        let cart = [];
 
+        function showDayOptions(day) {
+            const days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+            days.forEach(d => {
+                document.getElementById(d + "-options").style.display = "none";
+            });
+            if (day) {
+                document.getElementById(day.toLowerCase() + "-options").style.display = "block";
+            }
+        }
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+           document.getElementById("cartCount").innerText = cart.length;
+            displayCart();
+        }
+
+        function displayCart() {
+    const cartContent = document.getElementById("cartContent");
+    const totalAmountElement = document.getElementById("totalAmount");
+    let totalAmount = 0;
+
+    cartContent.innerHTML = "";
+    cart.forEach((c, index) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<strong>${c.item}</strong> - R${c.price.toFixed(2)} <button onclick="removeFromCart(${index})">Remove</button>`;
+        cartContent.appendChild(div);
+        totalAmount += c.price;
+    });
+
+    totalAmountElement.innerText = `R${totalAmount.toFixed(2)}`;
+    updateCheckoutButton(totalAmount);
+  }
+
+  function updateCheckoutButton(amount) {
+    const checkoutButton = document.getElementById("checkoutButton");
+    checkoutButton.innerText = `Checkout - R${amount.toFixed(2)}`;
+  }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            document.getElementById("cartCount").innerText = cart.length;
+            displayCart();
+       }
+
+        function toggleCartPopup() {
+            const cartPopup = document.getElementById("cartPopup");
+            cartPopup.style.display = cartPopup.style.display === "none" || cartPopup.style.display === "" ? "block" : "none";
+        }
+
+        const yoco = new YocoSDK({
+            publicKey: 'pk_test_50d13f6cmW8YLWPe6d34' // Replace with your actual public key from Yoco Dashboard
+        });
+
+        const checkoutButton = document.getElementById("checkoutButton");
+
+        checkoutButton.addEventListener("click", function () {
+            let totalAmount = 0;
+            cart.forEach(item => {
+                totalAmount += item.price;
+            });
+
+            // Update checkout button text with total amount
+            const checkoutButton = document.getElementById("checkoutButton");
+            checkoutButton.innerText = `Checkout - R${totalAmount.toFixed(2)}`;
+
+            // Implement actual checkout functionality here
+            alert(`Total Amount: R${totalAmount.toFixed(2)}\nImplement checkout functionality here.`);
+        }
+
+        document.addEventListener('click', function(event) {
+    const cartPopup = document.getElementById('cartPopup');
+    const cartIcon = document.querySelector('.cart-icon-container a');
+    if (!cartPopup.contains(event.target) && !cartIcon.contains(event.target)) {
+        cartPopup.style.display = 'none';
+    }
+  });
+  </script>
+</body>
+</html>
